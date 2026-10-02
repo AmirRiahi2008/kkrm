@@ -204,19 +204,11 @@ export const resources: Record<string, Resource> = {
       ref("qualification_ids", "صلاحیت‌ها", "qualifications", false, true),
     ],
   },
-  "board-terms": {
-    label: "دوره‌های هیئت مدیره",
-    fields: [
-      f("title", "نام دوره", "text", true),
-      f("started_at", "شروع دوره", "date", true),
-      f("ended_at", "پایان دوره", "date"),
-      ...active,
-    ],
-  },
+  
   "board-members": {
     label: "اعضای هیئت و ارکان",
     fields: [
-      ref("board_term_id", "دوره", "board-terms"),
+      
       f("name", "نام", "text", true),
       f("position", "سمت", "text", true),
       choice(

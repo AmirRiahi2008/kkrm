@@ -1,0 +1,108 @@
+.table-editor-tools {
+  padding: 12px;
+  border-block: 1px solid var(--line, #dfe7ee);
+  background: var(--soft, #f3f7fb);
+}
+
+.table-create-controls,
+.table-action-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: 8px;
+}
+
+.table-create-controls label {
+  width: 90px;
+  font-size: 13px;
+}
+
+.table-action-controls {
+  margin-top: 12px;
+}
+
+.table-action-controls button {
+  padding: 7px 10px;
+  border: 1px solid var(--line, #dfe7ee);
+  border-radius: 7px;
+  background: var(--surface, #fff);
+  color: var(--text, #17202a);
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+}
+
+.table-action-controls button:disabled,
+.editor-toolbar button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.table-editor-hint {
+  margin: 10px 0 0;
+  font-size: 12px;
+  line-height: 1.9;
+  color: var(--muted, #64748b);
+}
+
+.prose-editor,
+.rich-content {
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.prose-editor table,
+.rich-content table {
+  width: 100%;
+  min-width: 600px;
+  border-collapse: collapse;
+  table-layout: auto;
+  margin-block: 20px;
+  direction: rtl;
+  font-size: 14px;
+}
+
+.prose-editor th,
+.prose-editor td,
+.rich-content th,
+.rich-content td {
+  position: relative;
+  min-width: 80px;
+  border: 1px solid var(--line, #dfe7ee);
+  padding: 12px;
+  text-align: right;
+  vertical-align: top;
+  line-height: 1.9;
+  overflow-wrap: anywhere;
+}
+
+.prose-editor th,
+.rich-content th {
+  background: var(--soft, #f3f7fb);
+  font-weight: 700;
+}
+
+.prose-editor td > p,
+.prose-editor th > p,
+.rich-content td > p,
+.rich-content th > p {
+  margin: 0;
+}
+
+.prose-editor .selectedCell::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgb(59 130 246 / 18%);
+  pointer-events: none;
+}
+
+.prose-editor img,
+.rich-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1rem auto;
+  border-radius: 12px;
+}

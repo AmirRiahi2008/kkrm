@@ -8,6 +8,7 @@ import {
   safeHref,
   entityPath,
   mediaUrl,
+  mediaOf,
   date,
 } from "@/lib/shared";
 import type { Entity } from "@/lib/types";
@@ -115,25 +116,31 @@ export function PublicList({
   if (resource === "experts")
     return (
       <div className="cards-grid">
-        {items.map((item) => (
-          <Link
-            prefetch={false}
-            href={entityPath(resource, item)}
-            className="expert-card"
-            key={item.id}
-          >
-            <img
-              src={mediaUrl(item.photo, "/assets/fig-185.jpg")}
-              alt={title(item)}
-            />
-            <h2>{title(item)}</h2>
-            <p>{text(item.city)}</p>
-            <p>شماره پروانه: {text(item.license_number)}</p>
-            <span className="read-more">
-              مشاهده پروفایل <ChevronLeft size={15} />
-            </span>
-          </Link>
-        ))}
+        {items.map((item) => {
+          const photo = mediaOf(item.photo);
+          return (
+            <Link
+              prefetch={false}
+              href={entityPath(resource, item)}
+              className={"expert-card" + (photo ? "" : " without-image")}
+              key={item.id}
+            >
+              {photo && (
+                <img
+                  src={mediaUrl({ id: photo.id })}
+                  alt={title(item)}
+                  loading="lazy"
+                />
+              )}
+              <h2>{title(item)}</h2>
+              <p>{text(item.city)}</p>
+              <p>شماره پروانه: {text(item.license_number)}</p>
+              <span className="read-more">
+                مشاهده پروفایل <ChevronLeft size={15} />
+              </span>
+            </Link>
+          );
+        })}
       </div>
     );
   return (

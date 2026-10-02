@@ -30,6 +30,8 @@ export function RichEditor({
 }) {
   const file = useRef<HTMLInputElement>(null);
   const [error, setError] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const uploadLock = useRef(false);
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -49,22 +51,62 @@ export function RichEditor({
       editor.commands.setContent(value, { emitUpdate: false });
   }, [editor, value]);
   async function upload(image: File) {
+    if (!editor || editor.isDestroyed || uploadLock.current) return;
+
+    setError("");
+
+    if (!["image/jpeg", "image/png", "image/webp"].includes(image.type)) {
+      setError("فقط تصاویر JPEG، PNG و WebP پذیرفته می‌شوند.");
+      return;
+    }
+
+    if (image.size > 4 * 1024 * 1024) {
+      setError("برای بارگذاری از مسیر ورسل، حجم تصویر باید حداکثر ۴ مگابایت باشد.");
+      return;
+    }
+
+    uploadLock.current = true;
+    setUploading(true);
+
     const body = new FormData();
     body.set("file", image);
     body.set("alt", image.name);
-    setError("");
+
     try {
       const { data } = await api<Entity>("/api/v1/admin/media", {
         method: "POST",
         body,
       });
-      editor
-        ?.chain()
+
+      if (editor.isDestroyed) return;
+
+      const src = mediaUrl(data);
+
+      if (!src) {
+        throw new Error("نشانی تصویر بارگذاری‌شده معتبر نیست.");
+      }
+
+      const inserted = editor
+        .chain()
+        .insertContentAt(
+          editor.state.doc.content.size,
+          [
+            { type: "image", attrs: { src, alt: image.name } },
+            { type: "paragraph" },
+          ],
+          { updateSelection: true },
+        )
         .focus()
-        .setImage({ src: mediaUrl(data), alt: image.name })
         .run();
+
+      if (!inserted) {
+        throw new Error("تصویر بارگذاری شد، اما درج آن در متن انجام نشد.");
+      }
     } catch (error) {
       setError(errorMessage(error));
+    } finally {
+      uploadLock.current = false;
+      if (!editor.isDestroyed) setUploading(false);
     }
   }
   if (!editor)
@@ -146,6 +188,8 @@ export function RichEditor({
         <button
           type="button"
           title="افزودن تصویر"
+          disabled={uploading}
+          aria-label={uploading ? "در حال بارگذاری تصویر" : "افزودن تصویر"}
           onClick={() => file.current?.click()}
         >
           <ImagePlus size={17} />
@@ -168,6 +212,7 @@ export function RichEditor({
           ref={file}
           type="file"
           hidden
+          disabled={uploading}
           accept="image/jpeg,image/png,image/webp"
           onChange={(event) => {
             const chosen = event.target.files?.[0];
@@ -177,7 +222,8 @@ export function RichEditor({
         />
       </div>
       <EditorContent editor={editor} />
-      {error && <p className="form-error">{error}</p>}
+      {uploading && <p role="status">در حال بارگذاری تصویر؛ پس از پایان، مطلب را ذخیره کنید.</p>}
+      {error && <p role="alert" className="form-error">{error}</p>}
     </div>
   );
 }

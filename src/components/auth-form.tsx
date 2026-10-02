@@ -146,15 +146,11 @@ export function AuthForm({
                 : "ثبت درخواست"}
           </button>
         </form>
-        {mode === "login" ? (
-          <Link prefetch={false} href="/admin/forgot-password">
-            رمز عبور را فراموش کرده‌ام
-          </Link>
-        ) : (
+    
           <Link prefetch={false} href="/admin/login">
             بازگشت به ورود
           </Link>
-        )}
+
         <Link prefetch={false} href="/" className="quiet">
           بازگشت به سایت
         </Link>

@@ -8,8 +8,7 @@ import {
   date,
   text,
   faNumber,
-  DEFAULT_PERSON_IMAGE,
-  isPersonResource,
+
 } from "@/lib/shared";
 import type { Entity, Pagination } from "@/lib/types";
 

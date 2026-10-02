@@ -2274,7 +2274,14 @@ html[data-theme="dark"] .mobile-drawer .nav-dropdown.is-active > summary {
     height: auto;
     margin: 0;
   }
+.content-card.without-image .card-copy {
+  flex: 1;
+  width: 100%;
+}
 
+.president-card.without-image {
+  justify-content: center;
+}
   .banners-section.page-container > a > img {
     height: auto;
   }

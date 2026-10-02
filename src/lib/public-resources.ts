@@ -28,7 +28,7 @@ export const publicResources: Record<
   experts: { api: "experts", label: "جستجوی کارشناس" },
   "expert-groups": {
     api: "expert-groups",
-    label: "گروه‌های یازده‌گانه کارشناسی",
+    label: "گروه‌های دوازده‌گانه کارشناسی",
   },
   disciplines: { api: "disciplines", label: "رشته‌های کارشناسی" },
   qualifications: { api: "qualifications", label: "صلاحیت‌های کارشناسی" },

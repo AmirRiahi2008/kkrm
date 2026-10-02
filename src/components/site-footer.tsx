@@ -97,7 +97,7 @@ export function SiteFooter({
         </section>
       </div>
       <div className="copyright">
-        {settings.copyright ||
+        {
           "طراحی و توسعه یافته توسط  صدرا رایانه نوین طبرستان"}
       </div>
     </footer>

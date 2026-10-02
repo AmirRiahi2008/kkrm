@@ -211,6 +211,8 @@ export const resources: Record<string, Resource> = {
       
       f("name", "نام", "text", true),
       f("position", "سمت", "text", true),
+      f("contact_label", "عنوان راه ارتباطی"),
+f("contact_url", "لینک راه ارتباطی"),   
       choice(
         "role",
         "رکن",

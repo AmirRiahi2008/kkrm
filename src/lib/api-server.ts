@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 import { ApiError } from "./errors";
+import { backendFetch } from "./backend-http";
 import type { ApiResponse, User } from "./types";
 
 const origin = (process.env.API_URL || "http://localhost:8000").replace(
@@ -23,11 +24,7 @@ export async function serverApi<T>(
     ).origin;
     headers.Referer = headers.Origin + "/";
   }
-  const response = await fetch(origin + path, {
-    headers,
-    cache: "no-store",
-    signal: AbortSignal.timeout(12000),
-  });
+  const response = await backendFetch(origin + path, { headers });
   const payload = await response.json().catch(() => ({}));
   if (!response.ok)
     throw new ApiError(

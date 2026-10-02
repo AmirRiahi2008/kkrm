@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import "./original.css";
 import "./globals.css";
-import "./table-styles.css";
+import "./table-styles.css";import "./board-contact.css";
 import "./loader.css";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL || "http://localhost:3000"),

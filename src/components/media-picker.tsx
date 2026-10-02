@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Upload, X } from "lucide-react";
 import { api } from "@/lib/api-client";
 import { errorMessage } from "@/lib/errors";
@@ -23,6 +23,7 @@ export function MediaPicker({
   const [added, setAdded] = useState<Entity[]>([]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
+  const uploadLock = useRef(false);
   const pool = [...added, ...choices].filter(
     (item, i, array) => array.findIndex((m) => m.id === item.id) === i,
   );
@@ -32,8 +33,23 @@ export function MediaPicker({
   );
   const selected = pool.find((item) => item.id === value);
   async function upload(file: File) {
-    setBusy(true);
+    if (uploadLock.current) return;
     setError("");
+    if (file.size > 4 * 1024 * 1024) {
+      setError(
+        "برای بارگذاری از مسیر ورسل، حجم فایل باید حداکثر ۴ مگابایت باشد.",
+      );
+      return;
+    }
+    if (
+      imagesOnly &&
+      !["image/jpeg", "image/png", "image/webp"].includes(file.type)
+    ) {
+      setError("برای تصویر فقط JPEG، PNG و WebP انتخاب کنید.");
+      return;
+    }
+    uploadLock.current = true;
+    setBusy(true);
     try {
       const body = new FormData();
       body.set("file", file);
@@ -47,12 +63,14 @@ export function MediaPicker({
     } catch (error) {
       setError(errorMessage(error));
     } finally {
+      uploadLock.current = false;
       setBusy(false);
     }
   }
   return (
     <div className="media-picker">
       <select
+        disabled={busy}
         value={value || ""}
         onChange={(event) =>
           onChange(event.target.value ? Number(event.target.value) : null)
@@ -89,6 +107,7 @@ export function MediaPicker({
           <span>{text(selected.alt || selected.original_name)}</span>
           <button
             type="button"
+            disabled={busy}
             onClick={() => onChange(null)}
             aria-label="حذف انتخاب"
           >

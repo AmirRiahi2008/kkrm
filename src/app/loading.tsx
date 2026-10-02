@@ -1,8 +1,5 @@
+import { RouteLoading } from "@/components/global-loader";
+
 export default function Loading() {
-  return (
-    <div className="loading-state" role="status">
-      <span className="spinner" />
-      در حال دریافت اطلاعات…
-    </div>
-  );
+  return <RouteLoading />;
 }

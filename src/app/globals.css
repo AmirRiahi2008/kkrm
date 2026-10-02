@@ -2215,3 +2215,67 @@ html[data-theme="dark"] .mobile-drawer .nav-dropdown.is-active > summary {
   color: #8ed5ff !important;
   background: #16364d !important;
 }
+.banners-section.page-container {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  direction: rtl;
+  gap: 0;
+  height: auto;
+  aspect-ratio: 1350 / 210;
+}
+
+.banners-section.page-container > a {
+  display: block;
+  position: relative;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.banners-section.page-container > .questions-banner {
+  flex: 0 0 62.5926%;
+  width: 62.5926%;
+  margin: 0;
+  z-index: 1;
+}
+
+.banners-section.page-container > .phone-banner {
+  flex: 0 0 41.6296%;
+  width: 41.6296%;
+  margin: 0;
+  margin-inline-start: -4.2222%;
+  z-index: 2;
+}
+
+.banners-section.page-container > a > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  aspect-ratio: auto;
+  object-fit: fill;
+}
+
+@media (max-width: 768px) {
+  .banners-section.page-container {
+    flex-direction: column;
+    gap: 12px;
+    aspect-ratio: auto;
+  }
+
+  .banners-section.page-container > .questions-banner,
+  .banners-section.page-container > .phone-banner {
+    flex: 0 0 auto;
+    width: 100%;
+    height: auto;
+    margin: 0;
+  }
+
+  .banners-section.page-container > a > img {
+    height: auto;
+  }
+}

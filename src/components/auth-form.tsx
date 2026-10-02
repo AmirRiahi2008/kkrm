@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useAppRouter as useRouter } from "@/lib/use-app-router";
 import { Eye, EyeOff } from "lucide-react";
 import { api } from "@/lib/api-client";
 import { ApiError, errorMessage } from "@/lib/errors";

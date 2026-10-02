@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { useAppRouter as useRouter } from "@/lib/use-app-router";
 import { Upload, Trash2, ExternalLink, FileText } from "lucide-react";
 import { api } from "@/lib/api-client";
 import { errorMessage } from "@/lib/errors";

@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import "./original.css";
 import "./globals.css";
 import "./table-styles.css";
+import "./loader.css";
+import { GlobalLoader } from "@/components/global-loader";
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.SITE_URL || "http://localhost:3000"),
   title: {
@@ -21,7 +23,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="fa" dir="rtl" suppressHydrationWarning>
-      <body>{children}</body>
+<body>
+  <GlobalLoader />
+  {children}
+</body>
     </html>
   );
 }

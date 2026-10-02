@@ -1,8 +1,9 @@
 "use client";
 
-import { useEditor, EditorContent } from "@tiptap/react";
+import { useEditor, useEditorState, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
+import { TableKit } from "@tiptap/extension-table";
 import {
   Bold,
   Italic,
@@ -29,27 +30,51 @@ export function RichEditor({
   onChange: (html: string) => void;
 }) {
   const file = useRef<HTMLInputElement>(null);
+  const uploadLock = useRef(false);
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
-  const uploadLock = useRef(false);
+  const [rows, setRows] = useState(3);
+  const [columns, setColumns] = useState(6);
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
-        link: { openOnClick: false, protocols: ["https", "http"] },
+        link: {
+          openOnClick: false,
+          protocols: ["https", "http"],
+        },
       }),
       Image,
+      TableKit.configure({
+        table: {
+          resizable: false,
+        },
+      }),
     ],
     content: value,
     immediatelyRender: false,
     onUpdate: ({ editor }) => onChange(editor.getHTML()),
     editorProps: {
-      attributes: { class: "prose-editor", "aria-label": "ویرایش متن" },
+      attributes: {
+        class: "prose-editor",
+        "aria-label": "ویرایش متن",
+      },
     },
   });
+
+  const tableState = useEditorState({
+    editor,
+    selector: ({ editor }) => ({
+      active: editor?.isActive("table") ?? false,
+    }),
+  });
+
   useEffect(() => {
-    if (editor && editor.getHTML() !== value)
+    if (editor && editor.getHTML() !== value) {
       editor.commands.setContent(value, { emitUpdate: false });
+    }
   }, [editor, value]);
+
   async function upload(image: File) {
     if (!editor || editor.isDestroyed || uploadLock.current) return;
 
@@ -61,7 +86,9 @@ export function RichEditor({
     }
 
     if (image.size > 4 * 1024 * 1024) {
-      setError("برای بارگذاری از مسیر ورسل، حجم تصویر باید حداکثر ۴ مگابایت باشد.");
+      setError(
+        "برای بارگذاری از مسیر ورسل، حجم تصویر باید حداکثر ۴ مگابایت باشد.",
+      );
       return;
     }
 
@@ -91,7 +118,13 @@ export function RichEditor({
         .insertContentAt(
           editor.state.doc.content.size,
           [
-            { type: "image", attrs: { src, alt: image.name } },
+            {
+              type: "image",
+              attrs: {
+                src,
+                alt: image.name,
+              },
+            },
             { type: "paragraph" },
           ],
           { updateSelection: true },
@@ -106,11 +139,21 @@ export function RichEditor({
       setError(errorMessage(error));
     } finally {
       uploadLock.current = false;
-      if (!editor.isDestroyed) setUploading(false);
+
+      if (!editor.isDestroyed) {
+        setUploading(false);
+      }
     }
   }
-  if (!editor)
-    return <div className="editor-skeleton">در حال آماده‌سازی ویرایشگر…</div>;
+
+  if (!editor) {
+    return (
+      <div className="editor-skeleton">
+        در حال آماده‌سازی ویرایشگر…
+      </div>
+    );
+  }
+
   return (
     <div className="rich-editor">
       <div className="editor-toolbar">
@@ -122,6 +165,7 @@ export function RichEditor({
         >
           <Bold size={17} />
         </button>
+
         <button
           type="button"
           title="مورب"
@@ -130,6 +174,7 @@ export function RichEditor({
         >
           <Italic size={17} />
         </button>
+
         <button
           type="button"
           title="عنوان"
@@ -139,6 +184,7 @@ export function RichEditor({
         >
           عنوان
         </button>
+
         <button
           type="button"
           title="فهرست"
@@ -146,6 +192,7 @@ export function RichEditor({
         >
           <List size={17} />
         </button>
+
         <button
           type="button"
           title="فهرست شماره‌دار"
@@ -153,6 +200,7 @@ export function RichEditor({
         >
           <ListOrdered size={17} />
         </button>
+
         <button
           type="button"
           title="نقل قول"
@@ -160,24 +208,32 @@ export function RichEditor({
         >
           <Quote size={17} />
         </button>
+
         <button
           type="button"
           title="لینک"
           onClick={() => {
-            const href = prompt(
+            const value = prompt(
               "نشانی لینک",
               String(editor.getAttributes("link").href || ""),
             );
-            if (href && safeHref(href))
-              editor
-                .chain()
-                .focus()
-                .setLink({ href: safeHref(href)! })
-                .run();
+
+            if (value === null) return;
+
+            const href = safeHref(value);
+
+            if (!href) {
+              setError("نشانی لینک معتبر نیست.");
+              return;
+            }
+
+            setError("");
+            editor.chain().focus().setLink({ href }).run();
           }}
         >
           <LinkIcon size={17} />
         </button>
+
         <button
           type="button"
           title="حذف لینک"
@@ -185,6 +241,7 @@ export function RichEditor({
         >
           <Unlink size={17} />
         </button>
+
         <button
           type="button"
           title="افزودن تصویر"
@@ -194,6 +251,7 @@ export function RichEditor({
         >
           <ImagePlus size={17} />
         </button>
+
         <button
           type="button"
           title="بازگشت"
@@ -201,6 +259,7 @@ export function RichEditor({
         >
           <Undo2 size={17} />
         </button>
+
         <button
           type="button"
           title="انجام دوباره"
@@ -208,6 +267,7 @@ export function RichEditor({
         >
           <Redo2 size={17} />
         </button>
+
         <input
           ref={file}
           type="file"
@@ -216,14 +276,157 @@ export function RichEditor({
           accept="image/jpeg,image/png,image/webp"
           onChange={(event) => {
             const chosen = event.target.files?.[0];
-            if (chosen) void upload(chosen);
+
+            if (chosen) {
+              void upload(chosen);
+            }
+
             event.target.value = "";
           }}
         />
       </div>
+
+      <div className="table-editor-tools" aria-label="ابزارهای جدول">
+        <div className="table-create-controls">
+          <label>
+            سطر
+            <input
+              type="number"
+              min={1}
+              max={50}
+              value={rows}
+              onChange={(event) => setRows(Number(event.target.value))}
+            />
+          </label>
+
+          <label>
+            ستون
+            <input
+              type="number"
+              min={1}
+              max={12}
+              value={columns}
+              onChange={(event) => setColumns(Number(event.target.value))}
+            />
+          </label>
+
+          <button
+            type="button"
+            className="secondary-button"
+            disabled={uploading}
+            onClick={() => {
+              if (
+                !Number.isInteger(rows) ||
+                !Number.isInteger(columns) ||
+                rows < 1 ||
+                rows > 50 ||
+                columns < 1 ||
+                columns > 12
+              ) {
+                setError("تعداد سطر باید بین ۱ تا ۵۰ و ستون بین ۱ تا ۱۲ باشد.");
+                return;
+              }
+
+              setError("");
+
+              const position = editor.state.doc.content.size;
+
+              editor
+                .chain()
+                .insertContentAt(position, { type: "paragraph" })
+                .setTextSelection(position + 1)
+                .insertTable({
+                  rows,
+                  cols: columns,
+                  withHeaderRow: true,
+                })
+                .focus()
+                .run();
+            }}
+          >
+            افزودن جدول
+          </button>
+        </div>
+
+        <div className="table-action-controls">
+          {[
+            {
+              label: "سطر قبل",
+              run: () => editor.chain().focus().addRowBefore().run(),
+            },
+            {
+              label: "سطر بعد",
+              run: () => editor.chain().focus().addRowAfter().run(),
+            },
+            {
+              label: "حذف سطر",
+              run: () => editor.chain().focus().deleteRow().run(),
+            },
+            {
+              label: "ستون قبل",
+              run: () => editor.chain().focus().addColumnBefore().run(),
+            },
+            {
+              label: "ستون بعد",
+              run: () => editor.chain().focus().addColumnAfter().run(),
+            },
+            {
+              label: "حذف ستون",
+              run: () => editor.chain().focus().deleteColumn().run(),
+            },
+            {
+              label: "ادغام سلول‌ها",
+              run: () => editor.chain().focus().mergeCells().run(),
+            },
+            {
+              label: "تفکیک سلول",
+              run: () => editor.chain().focus().splitCell().run(),
+            },
+            {
+              label: "سطر عنوان",
+              run: () => editor.chain().focus().toggleHeaderRow().run(),
+            },
+            {
+              label: "ستون عنوان",
+              run: () => editor.chain().focus().toggleHeaderColumn().run(),
+            },
+            {
+              label: "حذف جدول",
+              run: () => editor.chain().focus().deleteTable().run(),
+            },
+          ].map((action) => (
+            <button
+              key={action.label}
+              type="button"
+              disabled={!tableState?.active || uploading}
+              onMouseDown={(event) => event.preventDefault()}
+              onClick={action.run}
+            >
+              {action.label}
+            </button>
+          ))}
+        </div>
+
+        <p className="table-editor-hint">
+          برای ویرایش جدول روی سلول کلیک کنید. برای ادغام، چند سلول را انتخاب
+          کنید. جدول را از Word یا صفحه وب نیز می‌توانید کپی و اینجا جای‌گذاری
+          کنید.
+        </p>
+      </div>
+
       <EditorContent editor={editor} />
-      {uploading && <p role="status">در حال بارگذاری تصویر؛ پس از پایان، مطلب را ذخیره کنید.</p>}
-      {error && <p role="alert" className="form-error">{error}</p>}
+
+      {uploading && (
+        <p role="status">
+          در حال بارگذاری تصویر؛ پس از پایان، مطلب را ذخیره کنید.
+        </p>
+      )}
+
+      {error && (
+        <p role="alert" className="form-error">
+          {error}
+        </p>
+      )}
     </div>
   );
 }

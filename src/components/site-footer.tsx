@@ -68,10 +68,15 @@ export function SiteFooter({
             <Link prefetch={false} href="/experts">
               جستجوی کارشناس
             </Link>
+            <Link prefetch={false} href="/faqs">
+              پرسش‌های متداول
+            </Link>
             {links
               .filter(
                 (item) =>
-                  safeHref(item.url) && item.url !== "/tariffs/calculator",
+                  safeHref(item.url) &&
+                  item.url !== "/tariffs/calculator" &&
+                  item.url?.split(/[?#]/, 1)[0].replace(/\/+$/, "") !== "/faqs",
               )
               .map((item) => (
                 <Link key={item.id} href={safeHref(item.url)!} prefetch={false}>
@@ -97,8 +102,7 @@ export function SiteFooter({
         </section>
       </div>
       <div className="copyright">
-        {
-          "طراحی و توسعه یافته توسط  صدرا رایانه نوین طبرستان"}
+        {'طراحی و توسعه یافته توسط صدرا رایانه نوین طبرستان'}
       </div>
     </footer>
   );

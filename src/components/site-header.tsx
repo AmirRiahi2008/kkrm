@@ -14,18 +14,15 @@ import { EXPERT_LOGIN } from "@/lib/shared";
 import { NavItem, HomeNavLink } from "./nav-item";
 import type { Menu, SiteSettings } from "@/lib/types";
 
-const faqMenu: Menu = {
-  id: -1,
-  title: "پرسش‌های متداول",
-  url: "/faqs",
-  children: [],
-  open_new_tab: false,
-};
-
-function withFaqMenu(items: Menu[]): Menu[] {
-  return items.some((item) => item.url?.replace(/\/+$/, "") === "/faqs")
-    ? items
-    : [...items, faqMenu];
+function withoutFaqMenus(items: Menu[]): Menu[] {
+  return items
+    .filter(
+      (item) => item.url?.split(/[?#]/, 1)[0].replace(/\/+$/, "") !== "/faqs",
+    )
+    .map((item) => ({
+      ...item,
+      children: withoutFaqMenus(item.children ?? []),
+    }));
 }
 
 function subscribeTheme(callback: () => void) {
@@ -52,7 +49,8 @@ export function SiteHeader({
   );
   useEffect(() => {
     const saved = localStorage.getItem("kkrm-theme");
-    document.documentElement.dataset.theme = saved === "dark" ? "dark" : "light";
+    document.documentElement.dataset.theme =
+      saved === "dark" ? "dark" : "light";
     window.dispatchEvent(new Event("theme-change"));
   }, []);
   function toggleTheme() {
@@ -61,12 +59,12 @@ export function SiteHeader({
     localStorage.setItem("kkrm-theme", theme);
     window.dispatchEvent(new Event("theme-change"));
   }
-  const visible = withFaqMenu(menus).filter(
+  const visible = withoutFaqMenus(menus).filter(
     (item) => item.url !== "/tariffs/calculator" && item.url !== "/",
   );
-  const mobileItems = withFaqMenu(mobileMenus.length ? mobileMenus : menus).filter(
-    (item) => item.url !== "/tariffs/calculator" && item.url !== "/",
-  );
+  const mobileItems = withoutFaqMenus(
+    mobileMenus.length ? mobileMenus : menus,
+  ).filter((item) => item.url !== "/tariffs/calculator" && item.url !== "/");
   const split = Math.floor(visible.length / 2);
   return (
     <>

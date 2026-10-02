@@ -2153,3 +2153,36 @@ dt {
   color: inherit;
   background: transparent;
 }
+
+.history-content {
+  margin-block-end: 3rem;
+}
+
+.history-content h2 {
+  margin-block: 0 1.5rem;
+  line-height: 1.8;
+}
+
+.history-content p {
+  margin-block: 0 1.25rem;
+  line-height: 2.2;
+  overflow-wrap: anywhere;
+}
+
+.history-image {
+  width: 100%;
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+.history-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 1rem;
+}
+
+.history-content a {
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
+}

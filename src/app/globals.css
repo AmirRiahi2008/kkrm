@@ -2193,3 +2193,25 @@ dt {
   text-decoration: underline;
   text-underline-offset: 0.25rem;
 }
+.site-header .nav-link.is-active,
+.site-header .nav-dropdown.is-active > summary,
+.mobile-drawer .nav-link.is-active,
+.mobile-drawer .nav-dropdown.is-active > summary {
+  color: #005a91 !important;
+  background: #e7f2fb !important;
+  border-radius: 8px;
+  font-weight: 700;
+}
+
+.site-header .nav-dropdown.is-active > summary > svg,
+.mobile-drawer .nav-dropdown.is-active > summary > svg {
+  color: inherit;
+}
+
+html[data-theme="dark"] .site-header .nav-link.is-active,
+html[data-theme="dark"] .site-header .nav-dropdown.is-active > summary,
+html[data-theme="dark"] .mobile-drawer .nav-link.is-active,
+html[data-theme="dark"] .mobile-drawer .nav-dropdown.is-active > summary {
+  color: #8ed5ff !important;
+  background: #16364d !important;
+}

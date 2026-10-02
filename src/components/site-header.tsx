@@ -9,76 +9,15 @@ import {
   Sun,
   Moon,
   CalendarDays,
-  ChevronDown,
 } from "lucide-react";
-import { EXPERT_LOGIN, safeHref } from "@/lib/shared";
+import { EXPERT_LOGIN } from "@/lib/shared";
+import { NavItem, HomeNavLink } from "./nav-item";
 import type { Menu, SiteSettings } from "@/lib/types";
 
 function subscribeTheme(callback: () => void) {
   window.addEventListener("theme-change", callback);
 
-  return () => {
-    window.removeEventListener("theme-change", callback);
-  };
-}
-
-function NavItem({ item }: { item: Menu }) {
-  const children = item.children.filter(
-    (child) => child.url !== "/tariffs/calculator",
-  );
-
-  const href = safeHref(item.url);
-
-  if (item.url === "/tariffs/calculator") return null;
-
-  if (children.length) {
-    return (
-      <details
-        className="nav-dropdown"
-        onMouseEnter={(event) => {
-          if (
-            event.currentTarget.closest(".navigation-half") &&
-            window.matchMedia("(hover: hover)").matches
-          ) {
-            event.currentTarget.open = true;
-          }
-        }}
-        onMouseLeave={(event) => {
-          if (
-            event.currentTarget.closest(".navigation-half") &&
-            window.matchMedia("(hover: hover)").matches
-          ) {
-            event.currentTarget.open = false;
-          }
-        }}
-      >
-        <summary>
-          {item.title}
-          <ChevronDown size={13} />
-        </summary>
-
-        <div className="dropdown-panel">
-          {children.map((child) => (
-            <NavItem key={child.id} item={child} />
-          ))}
-        </div>
-      </details>
-    );
-  }
-
-  if (!href) return null;
-
-  return (
-    <Link
-      className="nav-link"
-      href={href}
-      prefetch={false}
-      target={item.open_new_tab ? "_blank" : undefined}
-      rel={item.open_new_tab ? "noopener noreferrer" : undefined}
-    >
-      {item.title}
-    </Link>
-  );
+  return () => window.removeEventListener("theme-change", callback);
 }
 
 export function SiteHeader({
@@ -102,17 +41,11 @@ export function SiteHeader({
   );
 
   useEffect(() => {
-    let theme = "light";
+    const saved = localStorage.getItem("kkrm-theme");
 
-    try {
-      if (localStorage.getItem("kkrm-theme") === "dark") {
-        theme = "dark";
-      }
-    } catch {
-      theme = "light";
-    }
+    document.documentElement.dataset.theme =
+      saved === "dark" ? "dark" : "light";
 
-    document.documentElement.dataset.theme = theme;
     window.dispatchEvent(new Event("theme-change"));
   }, []);
 
@@ -120,26 +53,16 @@ export function SiteHeader({
     const theme = dark ? "light" : "dark";
 
     document.documentElement.dataset.theme = theme;
-
-    try {
-      localStorage.setItem("kkrm-theme", theme);
-    } catch {}
-
+    localStorage.setItem("kkrm-theme", theme);
     window.dispatchEvent(new Event("theme-change"));
   }
 
   const visible = menus.filter(
-    (item) =>
-      item.url !== "/tariffs/calculator" &&
-      item.url !== "/",
+    (item) => item.url !== "/tariffs/calculator" && item.url !== "/",
   );
 
-  const mobileItems = (
-    mobileMenus.length ? mobileMenus : menus
-  ).filter(
-    (item) =>
-      item.url !== "/tariffs/calculator" &&
-      item.url !== "/",
+  const mobileItems = (mobileMenus.length ? mobileMenus : menus).filter(
+    (item) => item.url !== "/tariffs/calculator" && item.url !== "/",
   );
 
   const split = Math.floor(visible.length / 2);
@@ -171,10 +94,8 @@ export function SiteHeader({
           </div>
 
           <button
-            type="button"
             className="search-toggle icon-button"
             aria-label="جستجو در اخبار، اطلاعیه‌ها و مصوبات"
-            aria-haspopup="dialog"
             onClick={() => search.current?.showModal()}
           >
             <Search size={23} />
@@ -188,24 +109,20 @@ export function SiteHeader({
 
         <p className="year-motto">
           <span>
-            {
-              "سرمایه گذاری برای تولید"}
+            {settings.announcement_ticker || "سرمایه گذاری برای تولید"}
           </span>
         </p>
 
         <div className="navigation-bar">
           <button
-            type="button"
             className="menu-toggle icon-button"
             aria-label="باز کردن منو"
-            aria-haspopup="dialog"
             onClick={() => mobile.current?.showModal()}
           >
             <MenuIcon />
           </button>
 
           <button
-            type="button"
             className="theme-toggle"
             aria-label={dark ? "حالت روشن" : "حالت تاریک"}
             aria-pressed={dark}
@@ -219,13 +136,7 @@ export function SiteHeader({
             className="navigation-half navigation-right"
             aria-label="منوی اصلی"
           >
-            <Link
-              prefetch={false}
-              className="nav-link"
-              href="/"
-            >
-              صفحه اصلی
-            </Link>
+            <HomeNavLink />
 
             {visible.slice(0, split).map((item) => (
               <NavItem key={item.id} item={item} />
@@ -247,9 +158,7 @@ export function SiteHeader({
             <img
               className="brand-logo"
               src="/assets/logo_kanoon.png"
-              alt="نشان کانون کارشناسان رسمی دادگستری مازندران"
-              width={100}
-              height={100}
+              alt="نشان کانون"
             />
           </Link>
 
@@ -264,15 +173,13 @@ export function SiteHeader({
         </div>
 
         <p className="brand-title">
-          {settings.site_name ||
-            "کانون کارشناسان رسمی دادگستری مازندران"}
+          {settings.site_name || "کانون کارشناسان رسمی دادگستری مازندران"}
         </p>
       </header>
 
       <dialog
         ref={mobile}
         className="mobile-drawer"
-        aria-labelledby="mobile-menu-title"
         onClick={(event) => {
           if (event.target === event.currentTarget) {
             mobile.current?.close();
@@ -280,10 +187,9 @@ export function SiteHeader({
         }}
       >
         <div className="dialog-header">
-          <h2 id="mobile-menu-title">منوی کانون</h2>
+          <h2>منوی کانون</h2>
 
           <button
-            type="button"
             aria-label="بستن منو"
             onClick={() => mobile.current?.close()}
           >
@@ -292,41 +198,23 @@ export function SiteHeader({
         </div>
 
         <nav
-          aria-label="منوی موبایل"
           onClick={(event) => {
-            if (
-              event.target instanceof Element &&
-              event.target.closest("a")
-            ) {
+            if ((event.target as HTMLElement).closest("a")) {
               mobile.current?.close();
             }
           }}
         >
-          <Link
-            prefetch={false}
-            className="nav-link"
-            href="/"
-          >
-            صفحه اصلی
-          </Link>
+          <HomeNavLink />
 
           {mobileItems.map((item) => (
             <NavItem key={item.id} item={item} />
           ))}
 
-          <Link
-            prefetch={false}
-            className="nav-link"
-            href="/news"
-          >
+          <Link prefetch={false} className="nav-link" href="/news">
             اخبار و اطلاعیه‌ها
           </Link>
 
-          <Link
-            prefetch={false}
-            className="nav-link"
-            href="/contact"
-          >
+          <Link prefetch={false} className="nav-link" href="/contact">
             تماس با ما
           </Link>
         </nav>
@@ -335,7 +223,6 @@ export function SiteHeader({
       <dialog
         ref={search}
         className="search-dialog"
-        aria-labelledby="search-dialog-title"
         onClick={(event) => {
           if (event.target === event.currentTarget) {
             search.current?.close();
@@ -343,10 +230,9 @@ export function SiteHeader({
         }}
       >
         <div className="dialog-header">
-          <h2 id="search-dialog-title">جستجو در سایت</h2>
+          <h2>جستجو در سایت</h2>
 
           <button
-            type="button"
             aria-label="بستن جستجو"
             onClick={() => search.current?.close()}
           >
@@ -354,15 +240,8 @@ export function SiteHeader({
           </button>
         </div>
 
-        <form
-          action="/search"
-          method="get"
-          onSubmit={() => search.current?.close()}
-        >
-          <label
-            className="sr-only"
-            htmlFor="header-search"
-          >
+        <form action="/search" onSubmit={() => search.current?.close()}>
+          <label className="sr-only" htmlFor="header-search">
             عبارت جستجو
           </label>
 
@@ -376,18 +255,13 @@ export function SiteHeader({
             autoFocus
           />
 
-          <button
-            className="primary-button"
-            type="submit"
-          >
+          <button className="primary-button" type="submit">
             <Search size={18} />
             جستجو
           </button>
         </form>
 
-        <p className="dialog-hint">
-          حداقل دو حرف وارد کنید.
-        </p>
+        <p className="dialog-hint">حداقل دو حرف وارد کنید.</p>
       </dialog>
     </>
   );

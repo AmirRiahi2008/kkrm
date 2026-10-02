@@ -2143,7 +2143,14 @@ dt {
   gap: 0.5rem;
   flex-basis: 100%;
 }
-
+.prose-editor img,
+.rich-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 1rem auto;
+  border-radius: 12px;
+}
 .share-url input {
   width: 100%;
   min-width: 0;

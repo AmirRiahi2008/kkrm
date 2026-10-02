@@ -98,7 +98,7 @@ export function SiteFooter({
       </div>
       <div className="copyright">
         {settings.copyright ||
-          "تمامی حقوق برای کانون کارشناسان رسمی دادگستری مازندران محفوظ است."}
+          "طراحی و توسعه یافته توسط  صدرا رایانه نوین طبرستان"}
       </div>
     </footer>
   );

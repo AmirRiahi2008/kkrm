@@ -2,8 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useAppRouter as useRouter } from "@/lib/use-app-router";
+import { usePathname,useRouter } from "next/navigation";
 import {
   LogOut,
   Menu,

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useAppRouter as useRouter } from "@/lib/use-app-router";
+import { useRouter } from "next/navigation";
 import { api } from "@/lib/api-client";
 import { ApiError, errorMessage } from "@/lib/errors";
 

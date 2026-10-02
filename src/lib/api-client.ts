@@ -1,7 +1,7 @@
 "use client";
 
 import { ApiError } from "./errors";
-import { withLoading } from "./loading-store";
+
 import type { ApiResponse } from "./types";
 
 const origin = "/backend";
@@ -93,5 +93,5 @@ export function api<T>(
   options: RequestInit = {},
   retry = true,
 ): Promise<ApiResponse<T>> {
-  return withLoading(() => apiRequest<T>(path, options, retry));
+  return apiRequest<T>(path, options, retry);
 }

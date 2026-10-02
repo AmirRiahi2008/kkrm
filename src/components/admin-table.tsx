@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useAppRouter as useRouter } from "@/lib/use-app-router";
+import { useRouter } from "next/navigation";
 import { Pencil, Trash2, RotateCcw, Plus } from "lucide-react";
 import { resources } from "@/lib/admin-resources";
 import { api } from "@/lib/api-client";

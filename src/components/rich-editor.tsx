@@ -30,9 +30,9 @@ export function RichEditor({
   onChange: (html: string) => void;
 }) {
   const file = useRef<HTMLInputElement>(null);
-  const uploadLock = useRef(false);
   const [error, setError] = useState("");
   const [uploading, setUploading] = useState(false);
+  const uploadLock = useRef(false);
   const [rows, setRows] = useState(3);
   const [columns, setColumns] = useState(6);
 
@@ -213,22 +213,18 @@ export function RichEditor({
           type="button"
           title="لینک"
           onClick={() => {
-            const value = prompt(
+            const href = prompt(
               "نشانی لینک",
               String(editor.getAttributes("link").href || ""),
             );
 
-            if (value === null) return;
-
-            const href = safeHref(value);
-
-            if (!href) {
-              setError("نشانی لینک معتبر نیست.");
-              return;
+            if (href && safeHref(href)) {
+              editor
+                .chain()
+                .focus()
+                .setLink({ href: safeHref(href)! })
+                .run();
             }
-
-            setError("");
-            editor.chain().focus().setLink({ href }).run();
           }}
         >
           <LinkIcon size={17} />
@@ -314,6 +310,7 @@ export function RichEditor({
             type="button"
             className="secondary-button"
             disabled={uploading}
+            onMouseDown={(event) => event.preventDefault()}
             onClick={() => {
               if (
                 !Number.isInteger(rows) ||
@@ -329,19 +326,19 @@ export function RichEditor({
 
               setError("");
 
-              const position = editor.state.doc.content.size;
-
-              editor
+              const inserted = editor
                 .chain()
-                .insertContentAt(position, { type: "paragraph" })
-                .setTextSelection(position + 1)
+                .focus()
                 .insertTable({
                   rows,
                   cols: columns,
                   withHeaderRow: true,
                 })
-                .focus()
                 .run();
+
+              if (!inserted) {
+                setError("درج جدول در محل انتخاب‌شده انجام نشد.");
+              }
             }}
           >
             افزودن جدول

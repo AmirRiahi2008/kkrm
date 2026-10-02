@@ -4,6 +4,7 @@ import { serverApi } from "@/lib/api-server";
 import { ApiError } from "@/lib/errors";
 import { Hero, HomeNews } from "@/components/home-interactive";
 import { Card, SectionTitle } from "@/components/common";
+import { BoardContact } from "@/components/board-contact";
 import {
   EXPERT_LOGIN,
   entityPath,
@@ -96,6 +97,7 @@ export default async function Home({
               >
                 درباره رئیس کانون
               </Link>
+              <BoardContact item={president} />
             </>
           )}
           <Link prefetch={false} href="/board-members" className="board-link">

@@ -10,6 +10,7 @@ import {
   faNumber,
 } from "@/lib/shared";
 import type { Entity, Pagination } from "@/lib/types";
+import { BoardContact } from "./board-contact";
 import "@/app/no-image.css";
 
 export function SectionTitle({
@@ -64,18 +65,16 @@ export function Card({
   const excerpt = text(
     item.excerpt || item.description || item.partner || item.position,
   );
-  return (
-    <Link
-      prefetch={false}
-      href={entityPath(resource, item)}
-      className={[
-        "content-card",
-        resource === "albums" ? "album-card" : "",
-        imageSrc ? "" : "without-image",
-      ]
-        .filter(Boolean)
-        .join(" ")}
-    >
+  const className = [
+    "content-card",
+    resource === "albums" ? "album-card" : "",
+    imageSrc ? "" : "without-image",
+    resource === "board-members" ? "board-member-card" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+  const content = (
+    <>
       {imageSrc && (
         <div className="card-image">
           <img src={imageSrc} alt={title(item)} loading="lazy" />
@@ -92,6 +91,29 @@ export function Card({
           مشاهده جزئیات <ChevronLeft size={16} />
         </span>
       </div>
+    </>
+  );
+  if (resource === "board-members") {
+    return (
+      <article className={className}>
+        <Link
+          prefetch={false}
+          href={entityPath(resource, item)}
+          className="board-member-main"
+        >
+          {content}
+        </Link>
+        <BoardContact item={item} />
+      </article>
+    );
+  }
+  return (
+    <Link
+      prefetch={false}
+      href={entityPath(resource, item)}
+      className={className}
+    >
+      {content}
     </Link>
   );
 }

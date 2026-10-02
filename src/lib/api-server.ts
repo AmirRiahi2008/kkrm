@@ -3,7 +3,7 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { cache } from "react";
 import { ApiError } from "./errors";
-import { backendFetch } from "./backend-http";
+import { backendFetch, backendFault } from "./backend-http";
 import type { ApiResponse, User } from "./types";
 
 const origin = (process.env.API_URL || "http://localhost:8000").replace(
@@ -24,15 +24,44 @@ export async function serverApi<T>(
     ).origin;
     headers.Referer = headers.Origin + "/";
   }
-  const response = await backendFetch(origin + path, { headers });
+  const started = Date.now();
+  let response: Response;
+  try {
+    response = await backendFetch(origin + path, { headers });
+  } catch (error) {
+    const fault = backendFault(error);
+    if (
+      fault.code !== "BACKEND_FETCH_FAILED" ||
+      fault.timeout ||
+      error instanceof TypeError
+    ) {
+      console.error("KKR_SERVER_API_ERROR", {
+        path,
+        code: fault.code,
+        elapsedMs: Date.now() - started,
+      });
+    }
+    throw error;
+  }
   const payload = await response.json().catch(() => ({}));
-  if (!response.ok)
+  if (!response.ok) {
+    console.error("KKR_SERVER_API_HTTP_ERROR", {
+      path,
+      status: response.status,
+      elapsedMs: Date.now() - started,
+    });
     throw new ApiError(
       response.status,
       payload.message || "دریافت اطلاعات ناموفق بود.",
       payload.errors || {},
     );
+  }
   if (payload.success !== true || !("data" in payload)) {
+    console.error("KKR_SERVER_API_INVALID_RESPONSE", {
+      path,
+      status: response.status,
+      contentType: response.headers.get("content-type"),
+    });
     throw new ApiError(
       502,
       "پاسخ API معتبر نیست. آدرس و اجرای سرور لاراول را بررسی کنید.",

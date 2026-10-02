@@ -22,6 +22,12 @@ export function getServerLoadingCount() {
   return 0;
 }
 
+export function resetLoading() {
+  if (!operations.size) return;
+  operations.clear();
+  notify();
+}
+
 export function startLoading() {
   const operation = Symbol();
   operations.add(operation);

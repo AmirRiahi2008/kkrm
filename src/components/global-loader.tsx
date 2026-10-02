@@ -5,7 +5,6 @@ import { createPortal } from "react-dom";
 import {
   getLoadingCount,
   getServerLoadingCount,
-  startLoading,
   subscribeLoading,
 } from "@/lib/loading-store";
 
@@ -25,7 +24,7 @@ export function GlobalLoader() {
     return () => window.clearTimeout(timer);
   }, [count]);
 
-  if (!visible) return null;
+  if (!visible || count === 0) return null;
 
   return createPortal(
     <div
@@ -45,10 +44,13 @@ export function GlobalLoader() {
 }
 
 export function RouteLoading() {
-  useEffect(() => startLoading(), []);
-
   return (
-    <div className="global-route-placeholder" aria-busy="true">
+    <div
+      className="global-route-placeholder"
+      role="status"
+      aria-live="polite"
+      aria-busy="true"
+    >
       <span className="global-loading-spinner" aria-hidden="true" />
       <span>در حال دریافت اطلاعات…</span>
     </div>

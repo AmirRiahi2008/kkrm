@@ -117,7 +117,9 @@ export async function api<T>(
       window.location.pathname.startsWith("/admin") &&
       !authPage
     ) {
-      window.location.assign("/admin/login");
+      window.location.assign(
+  new URL("/admin/login", window.location.origin).href,
+);
     }
 
     throw new ApiError(

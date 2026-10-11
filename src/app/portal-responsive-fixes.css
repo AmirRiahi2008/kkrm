@@ -1,0 +1,162 @@
+.site-header.portal-header {
+  --portal-content-width: min(
+    1280px,
+    calc(100% - clamp(24px, 5vw, 68px))
+  );
+}
+
+.site-header.portal-header .annual-banners,
+.site-header.portal-header .navigation-bar.portal-navigation {
+  width: var(--portal-content-width) !important;
+  max-width: 1280px !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  margin-inline: auto !important;
+}
+
+.site-header.portal-header .annual-banners {
+  display: block !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  padding: 0 !important;
+}
+
+.site-header.portal-header .annual-banner-unified {
+  display: block !important;
+  position: relative !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  aspect-ratio: 1280 / 170;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  overflow: hidden;
+  border: 0;
+  border-radius: 12px;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.site-header.portal-header .annual-banner-unified > img {
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  max-width: none !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  object-fit: fill !important;
+  object-position: center !important;
+  transform: none !important;
+  background: transparent !important;
+}
+
+.hero-section .president-card.president-refined > h2 {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  margin: 0;
+  white-space: normal;
+  word-break: normal;
+  overflow-wrap: break-word;
+  text-wrap: balance;
+  line-height: 1.9;
+}
+
+@media (max-width: 767px) {
+  .hero-section .president-card.president-refined {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: center;
+    justify-items: stretch;
+    gap: 8px 14px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    height: auto;
+    min-height: 0;
+    padding: 18px;
+    box-sizing: border-box;
+  }
+
+  .hero-section .president-card.president-refined:has(> .president-photo) {
+    grid-template-columns: 84px minmax(0, 1fr);
+  }
+
+  .hero-section .president-card.president-refined > * {
+    min-width: 0;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  .hero-section .president-card.president-refined > .president-heading {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    margin: 0 0 4px;
+  }
+
+  .hero-section .president-card.president-refined > .president-photo {
+    grid-column: 1;
+    grid-row: 2 / 5;
+    align-self: center;
+    width: 84px;
+    height: 108px;
+    max-width: 100%;
+    margin: 0;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .hero-section .president-card.president-refined > h2 {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    font-size: clamp(16px, 3.8vw, 18px);
+    text-align: start;
+  }
+
+  .hero-section .president-card.president-refined > p {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    margin: 0;
+    text-align: start;
+    line-height: 1.8;
+    overflow-wrap: break-word;
+  }
+
+  .hero-section .president-card.president-refined > .president-profile-link {
+    grid-column: 1 / -1;
+    grid-row: 4;
+    justify-self: start;
+    margin: 0;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+
+  .hero-section .president-card.president-refined:has(> .president-photo) > h2,
+  .hero-section .president-card.president-refined:has(> .president-photo) > p,
+  .hero-section .president-card.president-refined:has(> .president-photo) > .president-profile-link {
+    grid-column: 2;
+  }
+
+  .hero-section .president-card.president-refined > .board-link {
+    grid-column: 1 / -1;
+    grid-row: 5;
+    justify-self: stretch;
+    margin: 10px 0 0;
+    text-align: center;
+    white-space: normal;
+    overflow-wrap: break-word;
+  }
+}
+
+

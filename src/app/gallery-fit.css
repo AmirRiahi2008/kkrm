@@ -1,0 +1,143 @@
+dialog.inline-gallery-lightbox {
+  padding: 16px;
+  overflow: hidden;
+}
+
+.inline-gallery-lightbox .inline-gallery-lightbox-inner {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  gap: 10px;
+  height: min(820px, calc(100dvh - 68px));
+  min-width: 0;
+  min-height: 0;
+}
+
+.inline-gallery-lightbox .inline-gallery-dialog-heading {
+  margin: 0;
+  min-width: 0;
+}
+
+.inline-gallery-lightbox .inline-gallery-lightbox-stage {
+  height: auto;
+  min-width: 0;
+  min-height: 0;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.inline-gallery-lightbox .inline-gallery-lightbox-stage > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
+  margin: 0;
+  transform: none;
+}
+
+.inline-gallery-lightbox .inline-gallery-image-caption {
+  min-height: 0;
+  max-height: 4.4em;
+  margin: 0;
+  overflow-y: auto;
+}
+
+.inline-gallery-lightbox .inline-gallery-thumbnails {
+  min-width: 0;
+  margin: 0;
+}
+
+dialog.gallery-dialog[open] {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto auto;
+  gap: 10px;
+  padding: 16px;
+  overflow: hidden;
+}
+
+.gallery-dialog .viewer-header {
+  height: auto;
+  min-height: 44px;
+  padding: 0;
+}
+
+.gallery-dialog .viewer-stage {
+  min-width: 0;
+  min-height: 0;
+  height: auto;
+  padding: 0;
+  grid-template-columns: 44px minmax(0, 1fr) 44px;
+  grid-template-rows: minmax(0, 1fr);
+}
+
+.gallery-dialog .viewer-media {
+  min-width: 0;
+  min-height: 0;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  overflow: hidden;
+}
+
+.gallery-dialog .viewer-media:not(.zoomed) > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  min-height: 0;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  object-position: center;
+  margin: 0;
+  transform: none;
+}
+
+.gallery-dialog .viewer-media.zoomed {
+  display: block;
+  overflow: auto;
+}
+
+.gallery-dialog .viewer-caption {
+  min-height: 0;
+  max-height: 4.4em;
+  padding: 0;
+  margin: 0;
+  overflow-y: auto;
+}
+
+.gallery-dialog .viewer-thumbnails {
+  min-width: 0;
+  justify-content: flex-start;
+  padding: 5px;
+}
+
+@media (max-width: 600px) {
+  .inline-gallery-lightbox .inline-gallery-dialog-heading strong {
+    max-width: 45vw;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .gallery-dialog .viewer-stage {
+    grid-template-columns: 34px minmax(0, 1fr) 34px;
+    gap: 5px;
+  }
+
+  .gallery-dialog .viewer-stage > button {
+    padding: 5px;
+  }
+
+  .gallery-dialog .viewer-header > div {
+    gap: 10px;
+  }
+
+  .gallery-dialog .viewer-thumbnails button {
+    width: 60px;
+    height: 48px;
+  }
+}

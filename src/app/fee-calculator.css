@@ -1,0 +1,236 @@
+.fee-calculator-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(260px, 1fr);
+  gap: 24px;
+  align-items: start;
+}
+.fee-calculator-form {
+  background: var(--surface);
+  border: 1px solid var(--experience-line);
+  border-radius: 20px;
+  padding: 26px;
+  box-shadow: 0 7px 26px #092f4710;
+}
+.fee-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 23px;
+}
+.fee-heading > span {
+  width: 48px;
+  height: 48px;
+  border-radius: 15px;
+  display: grid;
+  place-items: center;
+  background: #f9e9c9;
+  color: #895819;
+  flex-shrink: 0;
+}
+.fee-heading h2 {
+  font-size: 18px;
+  margin: 0 0 5px;
+}
+.fee-heading p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--muted);
+}
+.fee-calculator-form fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+}
+.fee-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 19px;
+}
+.fee-form-grid label,
+.fee-form-grid .admin-jalali-label {
+  font-size: 12px;
+}
+.fee-amount,
+.fee-version {
+  grid-column: 1 / -1;
+}
+.fee-amount small {
+  color: var(--muted);
+  font-size: 11px;
+}
+.fee-form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 23px;
+}
+.fee-guide {
+  padding: 28px;
+  border-radius: 20px;
+  background: var(--experience-soft);
+  border: 1px solid var(--experience-line);
+  color: var(--text);
+}
+.fee-guide > svg {
+  color: #a77125;
+}
+.fee-guide h2 {
+  font-size: 18px;
+  margin: 14px 0;
+}
+.fee-guide p {
+  font-size: 13px;
+  line-height: 2.2;
+  color: var(--muted);
+}
+.fee-guide a {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  color: var(--primary);
+  font-size: 13px;
+  margin-top: 20px;
+}
+.fee-empty {
+  padding: 14px;
+  border: 1px solid var(--line);
+  background: var(--experience-soft);
+  border-radius: 10px;
+  font-size: 13px;
+}
+.fee-result {
+  grid-column: 1 / -1;
+  padding: 26px;
+  background: var(--surface);
+  border: 1px solid #b8d4c9;
+  border-radius: 20px;
+  box-shadow: 0 8px 26px #1146330a;
+}
+.fee-result-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 19px;
+  border-bottom: 1px solid var(--line);
+}
+.fee-result-heading span {
+  color: var(--muted);
+  font-size: 13px;
+}
+.fee-result-heading h2 {
+  font-size: clamp(24px, 3vw, 34px);
+  color: var(--primary);
+  margin: 10px 0 7px;
+}
+.fee-result-heading h2 small {
+  font-size: 14px;
+  font-weight: 400;
+}
+.fee-result-heading p {
+  font-size: 13px;
+  margin: 0;
+  color: var(--muted);
+}
+.fee-result-meta {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin: 22px 0;
+  font-size: 12px;
+}
+.fee-result-meta dt {
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.fee-result-meta dd {
+  margin: 0;
+  line-height: 1.9;
+}
+.fee-breakdown summary {
+  font-size: 13px;
+  cursor: pointer;
+  padding: 12px;
+  background: var(--experience-soft);
+  border-radius: 9px;
+}
+.fee-table-scroll {
+  overflow-x: auto;
+  margin-top: 14px;
+}
+.fee-table-scroll table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 360px;
+  font-size: 12px;
+}
+.fee-table-scroll th,
+.fee-table-scroll td {
+  padding: 12px;
+  border-bottom: 1px solid var(--line);
+  text-align: start;
+}
+.fee-table-scroll th {
+  background: var(--experience-soft);
+}
+.fee-breakdown p,
+.fee-notice {
+  font-size: 12px;
+  line-height: 2;
+  color: var(--muted);
+}
+.fee-result .source-link {
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
+}
+.fee-calculator-layout .portal-spin {
+  animation: fee-spin 1s linear infinite;
+}
+@keyframes fee-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+[data-theme="dark"] .fee-heading > span {
+  background: #47351d;
+  color: #ffdf9b;
+}
+@media (max-width: 899px) {
+  .fee-calculator-layout {
+    grid-template-columns: 1fr;
+  }
+  .fee-guide {
+    order: 3;
+  }
+}
+@media (max-width: 599px) {
+  .fee-calculator-form,
+  .fee-guide,
+  .fee-result {
+    padding: 18px;
+  }
+  .fee-form-grid {
+    grid-template-columns: 1fr;
+  }
+  .fee-heading h2 {
+    font-size: 16px;
+  }
+  .fee-result-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .fee-result-meta {
+    grid-template-columns: 1fr;
+  }
+  .fee-form-actions .primary-button,
+  .fee-form-actions .secondary-button {
+    font-size: 12px;
+    padding-inline: 12px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fee-calculator-layout .portal-spin {
+    animation: none;
+  }
+}

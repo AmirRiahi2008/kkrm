@@ -1,0 +1,116 @@
+.site-header.header-redesigned .annual-banners {
+  display: block;
+  width: calc(100% - 40px);
+  max-width: 1280px;
+  margin: 16px auto 22px;
+  direction: rtl;
+}
+.annual-banner-unified {
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  border-radius: 12px;
+  background: transparent;
+}
+.annual-banner-unified img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 160px;
+  object-fit: contain;
+  object-position: center;
+}
+.site-header.header-redesigned .brand-illuminated {
+  --logo-light: #219e8b;
+  --logo-star: #b1913c;
+}
+[data-theme="dark"] .site-header.header-redesigned .brand-illuminated {
+  --logo-light: #52d9c4;
+  --logo-star: #f0d789;
+}
+.site-header.header-redesigned .brand-illuminated .brand-logo {
+  animation: council-logo-glow 6.8s ease-in-out infinite;
+}
+.brand-lights {
+  position: absolute;
+  inset: 18%;
+  pointer-events: none;
+  z-index: 4;
+}
+.brand-lights i {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: var(--logo-star);
+  clip-path: polygon(
+    50% 0,
+    60% 39%,
+    100% 50%,
+    60% 61%,
+    50% 100%,
+    40% 61%,
+    0 50%,
+    40% 39%
+  );
+  filter: drop-shadow(0 0 5px var(--logo-light));
+  opacity: 0;
+  animation: council-star-glow 7s ease-in-out infinite;
+}
+.brand-lights i:nth-child(1) {
+  top: 8%;
+  right: 4%;
+}
+.brand-lights i:nth-child(2) {
+  bottom: 7%;
+  left: 3%;
+  width: 9px;
+  height: 9px;
+  animation-delay: 2.2s;
+}
+.brand-lights i:nth-child(3) {
+  top: 25%;
+  left: 6%;
+  width: 7px;
+  height: 7px;
+  animation-delay: 4.5s;
+}
+@keyframes council-logo-glow {
+  0%,
+  100% {
+    filter: drop-shadow(0 0 2px var(--logo-light));
+  }
+  50% {
+    filter: drop-shadow(0 0 7px var(--logo-light));
+  }
+}
+@keyframes council-star-glow {
+  0%,
+  28%,
+  65%,
+  100% {
+    opacity: 0;
+    transform: scale(0.55) rotate(0);
+  }
+  45% {
+    opacity: 0.9;
+    transform: scale(1) rotate(12deg);
+  }
+}
+@media (max-width: 599px) {
+  .site-header.header-redesigned .annual-banners {
+    width: calc(100% - 20px);
+    margin-block: 12px 18px;
+  }
+  .annual-banner-unified {
+    border-radius: 6px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-header.header-redesigned .brand-illuminated .brand-logo,
+  .brand-lights i {
+    animation: none;
+  }
+  .brand-lights i {
+    opacity: 0.35;
+  }
+}

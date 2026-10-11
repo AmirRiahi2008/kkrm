@@ -1,0 +1,79 @@
+.public-loading {
+  display: flex;
+  flex-direction: column;
+  min-height: 180px;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 32px 20px;
+  color: var(--muted);
+  text-align: center;
+}
+
+.public-loading .global-loading-spinner {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+}
+
+.public-unavailable {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  margin-block: 24px;
+  color: var(--text);
+}
+
+.public-unavailable h2 {
+  margin: 0 0 8px;
+  font-size: 1.15rem;
+}
+
+.public-unavailable p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.8;
+}
+
+.public-unavailable.compact {
+  padding: 14px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--surface);
+  font-size: 0.85rem;
+}
+
+.public-unavailable .primary-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+
+.public-unavailable .spin {
+  animation: public-retry-spin 0.8s linear infinite;
+}
+
+@keyframes public-retry-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 640px) {
+  .public-unavailable {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .public-unavailable .primary-button {
+    grid-column: 2;
+    justify-self: start;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .public-unavailable .spin {
+    animation: none;
+  }
+}

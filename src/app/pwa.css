@@ -1,0 +1,52 @@
+.pwa-status-banner {
+  position: fixed;
+  inset-inline: 20px;
+  bottom: max(20px, env(safe-area-inset-bottom));
+  z-index: 75;
+  margin-inline: auto;
+  max-width: 680px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 18px;
+  border: 1px solid var(--experience-line);
+  border-radius: 16px;
+  color: var(--text);
+  background: var(--surface);
+  box-shadow: 0 10px 35px #082b4430;
+  font-size: 12px;
+  line-height: 1.9;
+}
+.pwa-status-banner > svg {
+  flex-shrink: 0;
+  color: var(--primary);
+}
+.pwa-status-banner > span {
+  flex: 1;
+}
+.pwa-status-banner button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 0;
+  border-radius: 9px;
+  padding: 9px 12px;
+  background: var(--primary);
+  color: var(--on-primary, #fff);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.pwa-status-banner button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+@media (max-width: 480px) {
+  .pwa-status-banner {
+    flex-wrap: wrap;
+    inset-inline: 12px;
+    padding: 13px;
+  }
+  .pwa-status-banner button {
+    margin-inline-start: auto;
+  }
+}

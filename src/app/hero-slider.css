@@ -1,0 +1,269 @@
+.hero-carousel.hero-fast {
+  position: relative;
+  background: #12334b;
+}
+.hero-carousel.hero-fast .hero-slide {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.hero-carousel.hero-fast .hero-slide[hidden] {
+  display: none;
+}
+.hero-carousel.hero-fast .hero-slide > .hero-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  visibility: hidden;
+}
+.hero-carousel.hero-fast .hero-slide > .hero-image.is-ready {
+  visibility: visible;
+}
+.site-main .home-hero-refined .hero-carousel.hero-fast .hero-prev,
+.site-main .home-hero-refined .hero-carousel.hero-fast .hero-next {
+  position: absolute;
+  top: auto;
+  bottom: 12px;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0;
+  transform: none;
+  margin: 0;
+  z-index: 5;
+}
+.site-main .home-hero-refined .hero-carousel.hero-fast .hero-prev {
+  right: 15px;
+  left: auto;
+}
+.site-main .home-hero-refined .hero-carousel.hero-fast .hero-next {
+  left: 15px;
+  right: auto;
+}
+.hero-carousel.hero-fast button:focus-visible,
+.hero-carousel.hero-fast:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: -4px;
+}
+.hero-carousel.hero-fast .hero-image-status {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px 60px 100px;
+  color: #fff;
+  background: #12334b;
+  text-align: center;
+  font-size: 13px;
+}
+.site-main .home-hero-refined .hero-carousel.hero-fast .hero-caption {
+  z-index: 3;
+  bottom: 64px;
+}
+.site-main .home-hero-refined .hero-carousel .hero-caption h1 {
+  font-size: clamp(16px, 1.3vw, 20px);
+  line-height: 1.75;
+}
+.hero-carousel.hero-fast .hero-slide::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 35%, #061b32dd 100%);
+  pointer-events: none;
+  z-index: 2;
+}
+.site-main .home-hero-refined .hero-carousel.hero-fast .autoplay-toggle {
+  position: absolute;
+  top: auto;
+  right: auto;
+  left: 62px;
+  bottom: 14px;
+  display: grid;
+  place-items: center;
+  box-sizing: border-box;
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0;
+  margin: 0;
+  transform: none;
+  z-index: 5;
+  opacity: 1;
+}
+.hero-image-spinner {
+  animation: hero-spinner 0.8s linear infinite;
+}
+.hero-carousel.hero-fast .hero-image-empty {
+  background:
+    radial-gradient(ellipse at 20% 10%, #245e74, transparent 65%), #12334b;
+  color: #e2eef4;
+}
+.hero-carousel.hero-fast .hero-image-empty > svg {
+  opacity: 0.7;
+}
+.hero-carousel.hero-fast .hero-image-empty > span {
+  padding: 7px 14px;
+  border: 1px dashed #c6e3f54d;
+  border-radius: 9px;
+  background: #ffffff08;
+}
+.hero-carousel.hero-fast .hero-slide.without-image:not([hidden]) {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 24px 60px;
+  background:
+    radial-gradient(ellipse at 20% 10%, #245e74, transparent 65%), #12334b;
+}
+.hero-carousel.hero-fast .hero-slide.without-image > .hero-image-status {
+  position: relative;
+  inset: auto;
+  z-index: 3;
+  flex: 1;
+  min-height: 0;
+  padding: 0;
+  background: transparent;
+}
+.hero-carousel.hero-fast .hero-slide.without-image > .hero-caption {
+  position: static;
+  flex-shrink: 0;
+  margin-top: 14px;
+}
+.hero-news-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+  color: #ffffffd9;
+  font-size: 11px;
+}
+.hero-news-meta > span {
+  padding: 5px 9px;
+  border: 1px solid #ffffff40;
+  border-radius: 7px;
+  background: #082e4c40;
+}
+.hero-news-meta > time {
+  font-variant-numeric: tabular-nums;
+}
+.hero-carousel.hero-fast {
+  touch-action: pan-y pinch-zoom;
+}
+.site-main .home-hero-refined .hero-carousel.hero-fast .hero-dots {
+  position: absolute;
+  top: auto;
+  left: 50%;
+  right: auto;
+  bottom: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: max-content;
+  height: 36px;
+  max-width: calc(100% - 184px);
+  overflow-x: auto;
+  scrollbar-width: none;
+  direction: ltr;
+  gap: 6px;
+  padding: 0;
+  margin: 0;
+  flex-wrap: nowrap;
+  transform: translateX(-50%);
+  z-index: 5;
+}
+.site-main .home-hero-refined .hero-carousel.hero-fast .hero-dots > button {
+  box-sizing: border-box;
+  flex: 0 0 8px;
+  width: 8px;
+  height: 8px;
+  min-width: 8px;
+  min-height: 8px;
+  max-width: 8px;
+  padding: 0;
+  margin: 0;
+  border-radius: 50%;
+  transform: none;
+}
+.site-main
+  .home-hero-refined
+  .hero-carousel.hero-fast
+  .hero-dots
+  > button:focus-visible {
+  outline-offset: 4px;
+}
+@media (max-width: 599px) {
+  .site-main .home-hero-refined .hero-carousel .hero-caption h1 {
+    font-size: 16px;
+  }
+  .hero-carousel.hero-fast .hero-slide.without-image:not([hidden]) {
+    padding: 18px 18px 54px;
+  }
+  .hero-carousel.hero-fast .hero-slide.without-image .hero-image-status {
+    gap: 8px;
+  }
+  .hero-carousel.hero-fast .hero-slide.without-image .hero-image-status > svg {
+    width: 24px;
+    height: 24px;
+  }
+  .hero-carousel.hero-fast .hero-slide.without-image .hero-image-status > span {
+    font-size: 12px;
+    padding: 4px 10px;
+  }
+  .site-main .home-hero-refined .hero-slide.without-image .hero-caption h1 {
+    -webkit-line-clamp: 2;
+    line-height: 1.65;
+  }
+  .hero-slide.without-image .hero-news-meta {
+    margin-bottom: 8px;
+  }
+}
+.news-item.without-image .news-copy {
+  width: 100%;
+  flex: 1;
+  min-width: 0;
+}
+@keyframes hero-spinner {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-image-spinner {
+    animation: none;
+  }
+}
+
+.hero-carousel.hero-fast.hero-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 28px;
+  text-align: center;
+  color: #e2eef4;
+}
+.hero-empty p {
+  font-size: 14px;
+  line-height: 1.9;
+}
+.hero-empty a {
+  color: #fff;
+  border: 1px solid #ffffff40;
+  border-radius: 10px;
+  padding: 8px 16px;
+}
+.hero-dots::-webkit-scrollbar {
+  display: none;
+}

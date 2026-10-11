@@ -1,0 +1,71 @@
+.site-main a.system-pointer-card:is(.service-card, .system-link) {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+  --pointer-rotate-x: 0deg;
+  --pointer-rotate-y: 0deg;
+  --pointer-lift: 0px;
+  transform: perspective(850px)
+    rotateX(var(--pointer-rotate-x)) rotateY(var(--pointer-rotate-y))
+    translateY(var(--pointer-lift));
+  transform-origin: center;
+  transition:
+    transform 420ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.site-main a.system-pointer-card:is(.service-card, .system-link)::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(
+    circle at var(--pointer-x) var(--pointer-y),
+    color-mix(in srgb, var(--primary) 17%, transparent),
+    transparent 68%
+  );
+  opacity: 0;
+  transition: opacity 250ms ease;
+}
+
+.site-main a.system-pointer-card:is(.service-card, .system-link):focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 4px;
+  border-color: var(--primary);
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .site-main a.system-pointer-card:is(.service-card, .system-link)[data-pointer-active="true"] {
+    --pointer-lift: -4px;
+    border-color: color-mix(in srgb, var(--primary) 55%, var(--border));
+    box-shadow: 0 14px 28px #0b29431c;
+    transition:
+      transform 100ms ease-out,
+      border-color 200ms ease,
+      box-shadow 200ms ease;
+  }
+
+  .site-main a.system-pointer-card:is(.service-card, .system-link)[data-pointer-active="true"]::before {
+    opacity: 1;
+  }
+
+  [data-theme="dark"] .site-main a.system-pointer-card:is(.service-card, .system-link)[data-pointer-active="true"] {
+    box-shadow: 0 14px 30px #00000040;
+  }
+}
+
+@media (prefers-reduced-motion: reduce), (hover: none), (pointer: coarse) {
+  .site-main a.system-pointer-card:is(.service-card, .system-link) {
+    transform: none;
+    transition: none;
+  }
+
+  .site-main a.system-pointer-card:is(.service-card, .system-link)::before {
+    display: none;
+  }
+}
